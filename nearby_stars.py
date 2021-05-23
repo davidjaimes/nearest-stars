@@ -26,7 +26,7 @@ w = df['Radunit'] == 'Re'
 df.loc[w, 'RADIUS'] /= 109.18
 
 # Temperature-Luminosity Relation lines.
-t = np.linspace(250, 1e4) * u.K
+t = np.linspace(250, 1e4, 1000) * u.K
 r = np.logspace(-3, 3, 7) * u.R_sun
 T, R = np.meshgrid(t, r)
 coef = (4 * np.pi * c.sigma_sb).to('W K-4 Rsun-2')
@@ -43,19 +43,20 @@ plt.clabel(CS, fmt = r'%.3g R$_{\odot}$', inline=True, manual=manual,
 
 # Plot data and contour lines
 cb = plt.scatter(df['Teff'], df['BOL-LUM'], s=1e3*df['RADIUS'], c=df['DIST'],
-	zorder=3, alpha=1, cmap='cividis')
+	zorder=3, alpha=1, cmap='viridis')
 plt.scatter(5778, 1, s=1e3, c='red', label='Sun', zorder=4)
 plt.xlabel(r'Temperature ($^\circ$K)', size=16)
-plt.ylabel(r'Bol. Luminosity (L$_{\odot}$)', size=16)
-
-# Annotations
+plt.ylabel(r'Bolometric Luminosity (L$_{\odot}$)', size=16)
+plt.suptitle('Nearby Stars: To 25.1 light years', size=20, x=0.45)
+plt.title('Data Source: http://www.johnstonsarchive.net/astro/nearstar.html',
+    size=8, color='slategrey')
 
 # Plot options
-plt.grid(zorder=1, ls=':', color='gainsboro')
-plt.xlim(1e4, 250)
+plt.grid(zorder=1, ls=':', color='gainsboro', which='both')
+plt.gca().set_xticks(np.arange(0, 10500, 500), minor=True)
+plt.xlim(1e4, 0)
 plt.ylim(1e-8, 1e4)
 plt.yscale('log')
 plt.colorbar(cb).set_label(label='Distance (light years)', size=16)
-plt.clim(df.DIST.min(), 25)
 plt.tight_layout()
-plt.savefig('nearby-stars.png', dpi=300)
+plt.savefig('nearby-stars.png', dpi=300, transparent=True)
