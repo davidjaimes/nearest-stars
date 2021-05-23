@@ -34,26 +34,28 @@ L = (coef * pow(R, 2) * pow(T, 4)).to('Lsun')
 
 # Plot Temperature-Luminosity Relation lines
 plt.figure(figsize=(10, 6))
-CS = plt.contour(T, L, R, levels=r, colors='C7', linestyles='-')
-manual = [(9e3, 1e-5), (9e3, 1e-3), (9e3, 1e-1), (2.5e3, 1e-1), (2.5e3, 1e1),
-    (2.5e3, 1e3)]
+CS = plt.contour(T, L, R, levels=r, colors='slategrey', linestyles='-',
+    zorder=2)
+manual = [(9e3, 1e-5), (9e3, 1e-3), (9e3, 1e-1), (2e3, 1e-1), (2e3, 1e1),
+    (2e3, 1e3)]
 plt.clabel(CS, fmt = r'%.3g R$_{\odot}$', inline=True, manual=manual,
     fontsize=14)
 
 # Plot data and contour lines
-plt.scatter(df['Teff'], df['BOL-LUM'], s=1e3*df['RADIUS'], c=df['DIST'],
-	zorder=2, alpha=1)
-plt.scatter(5778, 1, s=100, c='red', label='Sun', zorder=3)
+cb = plt.scatter(df['Teff'], df['BOL-LUM'], s=1e3*df['RADIUS'], c=df['DIST'],
+	zorder=3, alpha=1, cmap='cividis')
+plt.scatter(5778, 1, s=1e3, c='red', label='Sun', zorder=4)
 plt.xlabel(r'Temperature ($^\circ$K)', size=16)
 plt.ylabel(r'Bol. Luminosity (L$_{\odot}$)', size=16)
 
+# Annotations
+
 # Plot options
-plt.grid(zorder=3, ls=':')
-plt.legend()
+plt.grid(zorder=1, ls=':', color='gainsboro')
 plt.xlim(1e4, 250)
 plt.ylim(1e-8, 1e4)
 plt.yscale('log')
-plt.colorbar().set_label(label='Distance (light years)', size=16)
+plt.colorbar(cb).set_label(label='Distance (light years)', size=16)
 plt.clim(df.DIST.min(), 25)
 plt.tight_layout()
 plt.savefig('nearby-stars.png', dpi=300)
