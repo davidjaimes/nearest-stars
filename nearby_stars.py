@@ -33,7 +33,7 @@ coef = (4 * np.pi * c.sigma_sb).to('W K-4 Rsun-2')
 L = (coef * pow(R, 2) * pow(T, 4)).to('Lsun')
 
 # Plot Temperature-Luminosity Relation lines
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(12.07, 9.00), dpi=200)
 CS = plt.contour(T, L, R, levels=r, colors='slategrey', linestyles='-',
     zorder=2)
 manual = [(9e3, 1e-5), (9e3, 1e-3), (9e3, 1e-1), (2e3, 1e-1), (2e3, 1e1),
@@ -59,5 +59,4 @@ plt.ylim(1e-8, 1e4)
 plt.yscale('log')
 plt.colorbar(cb).set_label(label='Distance (light years)', size=16)
 plt.tight_layout()
-#plt.savefig('nearby-stars.png', dpi=300, transparent=True)
-plt.savefig('nearby-stars.png', dpi=300,)
+plt.savefig('nearby-stars.png')
